@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_test/common_widget/margin_sizedbox.dart';
 
 import 'package:todo_test/views/auth/components/auth_text_form_field.dart';
 
@@ -10,6 +11,7 @@ class AuthPage extends StatelessWidget {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passController = TextEditingController();
+
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -22,12 +24,12 @@ class AuthPage extends StatelessWidget {
                 controller: emailController,
                 label: 'メールアドレス',
               ),
-              const SizedBox(height: 10),
+              MarginSizedBox.smallHeightMargin,
               AuthTextFormField(
                 controller: passController,
                 label: 'パスワード',
               ),
-              const SizedBox(height: 40),
+              MarginSizedBox.bigHeightMargin,
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -38,7 +40,7 @@ class AuthPage extends StatelessWidget {
                 },
                 child: const Text('会員登録'),
               ),
-              const SizedBox(height: 10),
+              MarginSizedBox.smallHeightMargin,
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
