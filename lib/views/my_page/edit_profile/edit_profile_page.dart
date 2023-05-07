@@ -13,8 +13,9 @@ import 'package:todo_test/views/my_page/components/blue_button.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key, required this.userName});
+  EditProfilePage({super.key, required this.userName, required this.imageUrl});
   final String userName;
+  String imageUrl;
 
   @override
   State<EditProfilePage> createState() => _EditProfilePageState();
@@ -25,9 +26,42 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController userNameController = TextEditingController();
   final User user = FirebaseAuth.instance.currentUser!;
   File? image; //画像を入れる変数
+
   @override
   Widget build(BuildContext context) {
     userNameController.text = widget.userName;
+    Widget previewWidget;
+    if (image != null) {
+      previewWidget = ClipOval(
+        child: Image.file(
+          image!,
+          width: 200,
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else {
+      //imageがヌルのとき
+      if (widget.imageUrl != '') {
+        previewWidget = ClipOval(
+          child: Image.network(
+            widget.imageUrl,
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        );
+      } else {
+        previewWidget = ClipOval(
+          child: Image.asset(
+            'assets/images/default_user_icon.png',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover,
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -40,34 +74,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Stack(
+                children: [
+                  previewWidget,
+                  if (widget.imageUrl != '')
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey, // 背景色を設定
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.black,
+                          ), // アイコンを設定
+                          onPressed: () async {
+                            // ボタンがタップされたときの処理
+                            //画像削除
+                            //上記で取得したURLを使ってUserドキュメントを更新する
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(user.uid)
+                                .update(
+                              {
+                                'imageUrl': '',
+                                'updatedAt': DateTime.now(),
+                              },
+                            );
+                            await FirebaseStorage.instance
+                                .ref('userIcon/${user.uid}')
+                                .delete();
+                            widget.imageUrl = '';
+                            showToast('画像削除しました');
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              ),
               MarginSizedBox.mediumHeightMargin,
               BlueButton(
                 buttonText: '画像を選択する',
                 onBlueButtonPressed: () {
                   //Image Pickerをインスタンス化
                   getImageFromGallery();
-                },
-              ),
-              MarginSizedBox.mediumHeightMargin,
-              BlueButton(
-                buttonText: '画像アップロード',
-                onBlueButtonPressed: () async {
-                  //Storageにアップロードする処理を書く
-
-                  if (image == null) {
-                    return;
-                  }
-                  try {
-                    //imageがnullじゃない
-                    await FirebaseStorage.instance
-                        .ref('user/${user.uid}')
-                        .putFile(image!);
-
-                    showToast('画像アップロード成功');
-                  } catch (error) {
-                    showCloseOnlyDialog(
-                        context, error.toString(), '画像アップロード失敗');
-                  }
                 },
               ),
               MarginSizedBox.mediumHeightMargin,
@@ -88,16 +139,45 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   if (formKey.currentState!.validate() == false) {
                     return;
                   }
-                  //バリデーション突破したあとの処理を下に書く
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(user.uid)
-                      .update(
-                    {
-                      'userName': userNameController.text,
-                    },
-                  );
-                  showToast('変更成功しました！');
+                  try {
+                    if (image != null) {
+                      ///imageがnullじゃない
+                      ///画像を選択したとき
+                      ///ストレージに選択した画像をアップロードする
+                      final storedImage = await FirebaseStorage.instance
+                          .ref('userIcon/${user.uid}')
+                          .putFile(image!);
+                      //ストレージにあげた画像のURLを取得する
+                      final String imageUrl =
+                          await storedImage.ref.getDownloadURL();
+                      //上記で取得したURLを使ってUserドキュメントを更新する
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .update(
+                        {
+                          'imageUrl': imageUrl,
+                          'userName': userNameController.text,
+                          'updatedAt': DateTime.now(),
+                        },
+                      );
+                    } else {
+                      ///imageがnull
+                      ///画像を選択していないとき
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .update(
+                        {
+                          'userName': userNameController.text,
+                          'updatedAt': DateTime.now(),
+                        },
+                      );
+                    }
+                    showToast('変更成功しました！');
+                  } catch (error) {
+                    showCloseOnlyDialog(context, error.toString(), '更新失敗しました');
+                  }
                 },
               ),
             ],
