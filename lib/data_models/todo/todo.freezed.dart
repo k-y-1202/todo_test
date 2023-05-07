@@ -23,6 +23,7 @@ mixin _$Todo {
   String get taskName => throw _privateConstructorUsedError;
   String get todoId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError; //投稿者のユーザーID
+  bool get isCompleted => throw _privateConstructorUsedError; //trueなら完了済み
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -42,6 +43,7 @@ abstract class $TodoCopyWith<$Res> {
       {String taskName,
       String todoId,
       String userId,
+      bool isCompleted,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
 }
@@ -62,6 +64,7 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
     Object? taskName = null,
     Object? todoId = null,
     Object? userId = null,
+    Object? isCompleted = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -78,6 +81,10 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -100,6 +107,7 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       {String taskName,
       String todoId,
       String userId,
+      bool isCompleted,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
 }
@@ -116,6 +124,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
     Object? taskName = null,
     Object? todoId = null,
     Object? userId = null,
+    Object? isCompleted = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -132,6 +141,10 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      isCompleted: null == isCompleted
+          ? _value.isCompleted
+          : isCompleted // ignore: cast_nullable_to_non_nullable
+              as bool,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -151,6 +164,7 @@ class _$_Todo implements _Todo {
       {required this.taskName,
       required this.todoId,
       required this.userId,
+      required this.isCompleted,
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt});
 
@@ -164,6 +178,9 @@ class _$_Todo implements _Todo {
   final String userId;
 //投稿者のユーザーID
   @override
+  final bool isCompleted;
+//trueなら完了済み
+  @override
   @TimestampConverter()
   final Timestamp createdAt;
   @override
@@ -172,7 +189,7 @@ class _$_Todo implements _Todo {
 
   @override
   String toString() {
-    return 'Todo(taskName: $taskName, todoId: $todoId, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Todo(taskName: $taskName, todoId: $todoId, userId: $userId, isCompleted: $isCompleted, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -184,6 +201,8 @@ class _$_Todo implements _Todo {
                 other.taskName == taskName) &&
             (identical(other.todoId, todoId) || other.todoId == todoId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.isCompleted, isCompleted) ||
+                other.isCompleted == isCompleted) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -192,8 +211,8 @@ class _$_Todo implements _Todo {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, taskName, todoId, userId, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, taskName, todoId, userId, isCompleted, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -214,6 +233,7 @@ abstract class _Todo implements Todo {
       {required final String taskName,
       required final String todoId,
       required final String userId,
+      required final bool isCompleted,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt}) = _$_Todo;
 
@@ -226,6 +246,8 @@ abstract class _Todo implements Todo {
   @override
   String get userId;
   @override //投稿者のユーザーID
+  bool get isCompleted;
+  @override //trueなら完了済み
   @TimestampConverter()
   Timestamp get createdAt;
   @override

@@ -10,6 +10,7 @@ class Todo with _$Todo {
     required String taskName,
     required String todoId,
     required String userId, //投稿者のユーザーID
+    required bool isCompleted, //trueなら完了済み
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
   }) = _Todo;
