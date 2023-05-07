@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_test/common_widget/close_only_dialog.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
+import 'package:todo_test/main.dart';
 
 import 'package:todo_test/views/auth/components/auth_text_form_field.dart';
 
@@ -55,17 +57,27 @@ class AuthPage extends StatelessWidget {
                         .user;
                     if (user != null) {
                       print("ユーザ登録しました");
+                    } else {
+                      showCloseOnlyDialog(
+                          context, '予期せぬエラーがでました、再度やりなおしてください。');
                     }
                   } on FirebaseAuthException catch (error) {
                     print(error.code);
+                    if (error.code == 'invalid-email') {
+                      print('メールアドレスの形式ではありません');
+                      showCloseOnlyDialog(context, 'メールアドレスの形式ではありません');
+                    }
                     if (error.code == 'email-already-in-use') {
                       print('既に使われているメールアドレスです');
+                      showCloseOnlyDialog(context, '既に使われているメールアドレスです');
                     }
                     if (error.code == 'weak-password') {
                       print('パスワードが弱すぎるぜ');
+                      showCloseOnlyDialog(context, 'パスワードが弱すぎるぜ');
                     }
                   } catch (error) {
                     print('予期せぬエラー');
+                    showCloseOnlyDialog(context, '予期せぬエラーが起きたよ。やり直してね');
                   }
                 },
                 child: const Text('会員登録'),
@@ -89,10 +101,17 @@ class AuthPage extends StatelessWidget {
                     if (user != null) {
                       print('ログイン成功');
                     } else {
-                      print('ログイン失敗');
+                      showCloseOnlyDialog(
+                          context, '予期せぬエラーがでました、再度やりなおしてください。');
                     }
-                  } catch (e) {
-                    //
+                  } on FirebaseAuthException catch (error) {
+                    if (error.code == 'user-not-found') {
+                      showCloseOnlyDialog(context, 'ユーザーが見つかりません');
+                    } else if (error.code == 'invalid-email') {
+                      showCloseOnlyDialog(context, 'メールアドレスの形式ではありません');
+                    }
+                  } catch (error) {
+                    showCloseOnlyDialog(context, '予期せぬエラーがきたよ。$error');
                   }
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
