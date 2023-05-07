@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'todo.freezed.dart';
@@ -8,9 +9,21 @@ class Todo with _$Todo {
   factory Todo({
     required String taskName,
     required String userId, //投稿者のユーザーID
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    @TimestampConverter() required Timestamp createdAt,
+    @TimestampConverter() required Timestamp updatedAt,
   }) = _Todo;
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
+}
+
+class TimestampConverter implements JsonConverter<Timestamp, Timestamp> {
+  const TimestampConverter();
+
+  @override
+  Timestamp fromJson(Timestamp timestamp) {
+    return timestamp;
+  }
+
+  @override
+  Timestamp toJson(Timestamp date) => date;
 }

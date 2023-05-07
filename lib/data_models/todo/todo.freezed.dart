@@ -22,8 +22,10 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 mixin _$Todo {
   String get taskName => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError; //投稿者のユーザーID
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  Timestamp get createdAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  Timestamp get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +38,10 @@ abstract class $TodoCopyWith<$Res> {
       _$TodoCopyWithImpl<$Res, Todo>;
   @useResult
   $Res call(
-      {String taskName, String userId, DateTime createdAt, DateTime updatedAt});
+      {String taskName,
+      String userId,
+      @TimestampConverter() Timestamp createdAt,
+      @TimestampConverter() Timestamp updatedAt});
 }
 
 /// @nodoc
@@ -69,11 +74,11 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
     ) as $Val);
   }
 }
@@ -85,7 +90,10 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String taskName, String userId, DateTime createdAt, DateTime updatedAt});
+      {String taskName,
+      String userId,
+      @TimestampConverter() Timestamp createdAt,
+      @TimestampConverter() Timestamp updatedAt});
 }
 
 /// @nodoc
@@ -114,11 +122,11 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
     ));
   }
 }
@@ -129,8 +137,8 @@ class _$_Todo implements _Todo {
   _$_Todo(
       {required this.taskName,
       required this.userId,
-      required this.createdAt,
-      required this.updatedAt});
+      @TimestampConverter() required this.createdAt,
+      @TimestampConverter() required this.updatedAt});
 
   factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
 
@@ -140,9 +148,11 @@ class _$_Todo implements _Todo {
   final String userId;
 //投稿者のユーザーID
   @override
-  final DateTime createdAt;
+  @TimestampConverter()
+  final Timestamp createdAt;
   @override
-  final DateTime updatedAt;
+  @TimestampConverter()
+  final Timestamp updatedAt;
 
   @override
   String toString() {
@@ -186,8 +196,8 @@ abstract class _Todo implements Todo {
   factory _Todo(
       {required final String taskName,
       required final String userId,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Todo;
+      @TimestampConverter() required final Timestamp createdAt,
+      @TimestampConverter() required final Timestamp updatedAt}) = _$_Todo;
 
   factory _Todo.fromJson(Map<String, dynamic> json) = _$_Todo.fromJson;
 
@@ -196,9 +206,11 @@ abstract class _Todo implements Todo {
   @override
   String get userId;
   @override //投稿者のユーザーID
-  DateTime get createdAt;
+  @TimestampConverter()
+  Timestamp get createdAt;
   @override
-  DateTime get updatedAt;
+  @TimestampConverter()
+  Timestamp get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_TodoCopyWith<_$_Todo> get copyWith => throw _privateConstructorUsedError;

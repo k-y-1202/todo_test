@@ -22,8 +22,10 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
 mixin _$UserData {
   String get userName => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  Timestamp get createdAt => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  Timestamp get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,8 +41,8 @@ abstract class $UserDataCopyWith<$Res> {
   $Res call(
       {String userName,
       String imageUrl,
-      DateTime createdAt,
-      DateTime updatedAt});
+      @TimestampConverter() Timestamp createdAt,
+      @TimestampConverter() Timestamp updatedAt});
 }
 
 /// @nodoc
@@ -73,11 +75,11 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
     ) as $Val);
   }
 }
@@ -92,8 +94,8 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
   $Res call(
       {String userName,
       String imageUrl,
-      DateTime createdAt,
-      DateTime updatedAt});
+      @TimestampConverter() Timestamp createdAt,
+      @TimestampConverter() Timestamp updatedAt});
 }
 
 /// @nodoc
@@ -124,11 +126,11 @@ class __$$_UserDataCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as Timestamp,
     ));
   }
 }
@@ -139,8 +141,8 @@ class _$_UserData implements _UserData {
   _$_UserData(
       {required this.userName,
       required this.imageUrl,
-      required this.createdAt,
-      required this.updatedAt});
+      @TimestampConverter() required this.createdAt,
+      @TimestampConverter() required this.updatedAt});
 
   factory _$_UserData.fromJson(Map<String, dynamic> json) =>
       _$$_UserDataFromJson(json);
@@ -150,9 +152,11 @@ class _$_UserData implements _UserData {
   @override
   final String imageUrl;
   @override
-  final DateTime createdAt;
+  @TimestampConverter()
+  final Timestamp createdAt;
   @override
-  final DateTime updatedAt;
+  @TimestampConverter()
+  final Timestamp updatedAt;
 
   @override
   String toString() {
@@ -197,8 +201,8 @@ abstract class _UserData implements UserData {
   factory _UserData(
       {required final String userName,
       required final String imageUrl,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_UserData;
+      @TimestampConverter() required final Timestamp createdAt,
+      @TimestampConverter() required final Timestamp updatedAt}) = _$_UserData;
 
   factory _UserData.fromJson(Map<String, dynamic> json) = _$_UserData.fromJson;
 
@@ -207,9 +211,11 @@ abstract class _UserData implements UserData {
   @override
   String get imageUrl;
   @override
-  DateTime get createdAt;
+  @TimestampConverter()
+  Timestamp get createdAt;
   @override
-  DateTime get updatedAt;
+  @TimestampConverter()
+  Timestamp get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_UserDataCopyWith<_$_UserData> get copyWith =>

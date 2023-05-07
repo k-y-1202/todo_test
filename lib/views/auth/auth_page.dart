@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_test/common_widget/close_only_dialog.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
+import 'package:todo_test/data_models/user_data/userdata.dart';
 import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/main.dart';
 
@@ -79,8 +80,8 @@ class AuthPage extends StatelessWidget {
                           .set({
                         'userName': '',
                         'imageUrl': '',
-                        'createdAt': DateTime.now(),
-                        'updatedAt': DateTime.now(),
+                        'createdAt': Timestamp.now(),
+                        'updatedAt': Timestamp.now(),
                       });
                     } else {
                       showCloseOnlyDialog(
@@ -129,12 +130,15 @@ class AuthPage extends StatelessWidget {
                     if (user != null) {
                       print('ログイン成功');
                       //FireStoreにuserドキュメントを作成
+
                       FirebaseFirestore.instance
                           .collection('users')
                           .doc(user.uid)
-                          .update({
-                        'updatedAt': DateTime.now(),
-                      });
+                          .update(
+                        {
+                          'updatedAt': Timestamp.now(),
+                        },
+                      );
                       // BottomNavigationPage(),
                     } else {
                       // ignore: use_build_context_synchronously
