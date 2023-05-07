@@ -126,6 +126,13 @@ class AuthPage extends StatelessWidget {
                         .user;
                     if (user != null) {
                       print('ログイン成功');
+                      //FireStoreにuserドキュメントを作成
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .update({
+                        'updatedAt': DateTime.now(),
+                      });
                       // BottomNavigationPage(),
                     } else {
                       // ignore: use_build_context_synchronously
