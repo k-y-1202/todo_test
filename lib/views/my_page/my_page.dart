@@ -6,6 +6,7 @@ import 'package:todo_test/common_widget/custom_font_size.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/data_models/user_data/userdata.dart';
 import 'package:todo_test/views/my_page/components/blue_button.dart';
+import 'package:todo_test/views/my_page/edit_profile/edit_profile_page.dart';
 
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
@@ -118,7 +119,10 @@ class MyPage extends StatelessWidget {
                     BlueButton(
                       buttonText: 'プロフィール編集',
                       onBlueButtonPressed: () {
-                        print('プロフィール編集');
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return EditProfilePage(userName: userData.userName);
+                        }));
                       },
                     ),
                   ],
