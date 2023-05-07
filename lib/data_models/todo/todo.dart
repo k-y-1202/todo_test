@@ -8,6 +8,7 @@ part 'todo.g.dart';
 class Todo with _$Todo {
   factory Todo({
     required String taskName,
+    required String todoId,
     required String userId, //投稿者のユーザーID
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,

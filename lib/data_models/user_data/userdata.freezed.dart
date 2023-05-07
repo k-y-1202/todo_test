@@ -22,6 +22,7 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) {
 mixin _$UserData {
   String get userName => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
+  String get userId => throw _privateConstructorUsedError;
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -41,6 +42,7 @@ abstract class $UserDataCopyWith<$Res> {
   $Res call(
       {String userName,
       String imageUrl,
+      String userId,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
 }
@@ -60,6 +62,7 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
   $Res call({
     Object? userName = null,
     Object? imageUrl = null,
+    Object? userId = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -71,6 +74,10 @@ class _$UserDataCopyWithImpl<$Res, $Val extends UserData>
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -94,6 +101,7 @@ abstract class _$$_UserDataCopyWith<$Res> implements $UserDataCopyWith<$Res> {
   $Res call(
       {String userName,
       String imageUrl,
+      String userId,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
 }
@@ -111,6 +119,7 @@ class __$$_UserDataCopyWithImpl<$Res>
   $Res call({
     Object? userName = null,
     Object? imageUrl = null,
+    Object? userId = null,
     Object? createdAt = null,
     Object? updatedAt = null,
   }) {
@@ -122,6 +131,10 @@ class __$$_UserDataCopyWithImpl<$Res>
       imageUrl: null == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -141,6 +154,7 @@ class _$_UserData implements _UserData {
   _$_UserData(
       {required this.userName,
       required this.imageUrl,
+      required this.userId,
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt});
 
@@ -152,6 +166,8 @@ class _$_UserData implements _UserData {
   @override
   final String imageUrl;
   @override
+  final String userId;
+  @override
   @TimestampConverter()
   final Timestamp createdAt;
   @override
@@ -160,7 +176,7 @@ class _$_UserData implements _UserData {
 
   @override
   String toString() {
-    return 'UserData(userName: $userName, imageUrl: $imageUrl, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserData(userName: $userName, imageUrl: $imageUrl, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -172,6 +188,7 @@ class _$_UserData implements _UserData {
                 other.userName == userName) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -180,8 +197,8 @@ class _$_UserData implements _UserData {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userName, imageUrl, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, userName, imageUrl, userId, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -201,6 +218,7 @@ abstract class _UserData implements UserData {
   factory _UserData(
       {required final String userName,
       required final String imageUrl,
+      required final String userId,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt}) = _$_UserData;
 
@@ -210,6 +228,8 @@ abstract class _UserData implements UserData {
   String get userName;
   @override
   String get imageUrl;
+  @override
+  String get userId;
   @override
   @TimestampConverter()
   Timestamp get createdAt;

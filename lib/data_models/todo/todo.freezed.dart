@@ -21,6 +21,7 @@ Todo _$TodoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Todo {
   String get taskName => throw _privateConstructorUsedError;
+  String get todoId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError; //投稿者のユーザーID
   @TimestampConverter()
   Timestamp get createdAt => throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {String taskName,
+      String todoId,
       String userId,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
@@ -58,6 +60,7 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
   @override
   $Res call({
     Object? taskName = null,
+    Object? todoId = null,
     Object? userId = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -66,6 +69,10 @@ class _$TodoCopyWithImpl<$Res, $Val extends Todo>
       taskName: null == taskName
           ? _value.taskName
           : taskName // ignore: cast_nullable_to_non_nullable
+              as String,
+      todoId: null == todoId
+          ? _value.todoId
+          : todoId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -91,6 +98,7 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
   @useResult
   $Res call(
       {String taskName,
+      String todoId,
       String userId,
       @TimestampConverter() Timestamp createdAt,
       @TimestampConverter() Timestamp updatedAt});
@@ -106,6 +114,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
   @override
   $Res call({
     Object? taskName = null,
+    Object? todoId = null,
     Object? userId = null,
     Object? createdAt = null,
     Object? updatedAt = null,
@@ -114,6 +123,10 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
       taskName: null == taskName
           ? _value.taskName
           : taskName // ignore: cast_nullable_to_non_nullable
+              as String,
+      todoId: null == todoId
+          ? _value.todoId
+          : todoId // ignore: cast_nullable_to_non_nullable
               as String,
       userId: null == userId
           ? _value.userId
@@ -136,6 +149,7 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res, _$_Todo>
 class _$_Todo implements _Todo {
   _$_Todo(
       {required this.taskName,
+      required this.todoId,
       required this.userId,
       @TimestampConverter() required this.createdAt,
       @TimestampConverter() required this.updatedAt});
@@ -144,6 +158,8 @@ class _$_Todo implements _Todo {
 
   @override
   final String taskName;
+  @override
+  final String todoId;
   @override
   final String userId;
 //投稿者のユーザーID
@@ -156,7 +172,7 @@ class _$_Todo implements _Todo {
 
   @override
   String toString() {
-    return 'Todo(taskName: $taskName, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Todo(taskName: $taskName, todoId: $todoId, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -166,6 +182,7 @@ class _$_Todo implements _Todo {
             other is _$_Todo &&
             (identical(other.taskName, taskName) ||
                 other.taskName == taskName) &&
+            (identical(other.todoId, todoId) || other.todoId == todoId) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -176,7 +193,7 @@ class _$_Todo implements _Todo {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, taskName, userId, createdAt, updatedAt);
+      Object.hash(runtimeType, taskName, todoId, userId, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -195,6 +212,7 @@ class _$_Todo implements _Todo {
 abstract class _Todo implements Todo {
   factory _Todo(
       {required final String taskName,
+      required final String todoId,
       required final String userId,
       @TimestampConverter() required final Timestamp createdAt,
       @TimestampConverter() required final Timestamp updatedAt}) = _$_Todo;
@@ -203,6 +221,8 @@ abstract class _Todo implements Todo {
 
   @override
   String get taskName;
+  @override
+  String get todoId;
   @override
   String get userId;
   @override //投稿者のユーザーID

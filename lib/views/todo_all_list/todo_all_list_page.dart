@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_test/common_widget/confirm_dialog.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/data_models/todo/todo.dart';
 import 'package:todo_test/data_models/user_data/userdata.dart';
+import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/views/todo_all_list/add_task/add_task_page.dart';
 
 class TodoAllListPage extends StatelessWidget {
@@ -192,7 +194,19 @@ class TodoAllListPage extends StatelessWidget {
                             trailing: (todo.userId ==
                                     FirebaseAuth.instance.currentUser!.uid)
                                 ? IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      showConfirmDialog(
+                                          context: context,
+                                          text: '本当に削除しますか？',
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                            await FirebaseFirestore.instance
+                                                .collection('todos')
+                                                .doc(todo.todoId)
+                                                .delete();
+                                            showToast('削除成功');
+                                          });
+                                    },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,

@@ -9,6 +9,7 @@ class UserData with _$UserData {
   factory UserData({
     required String userName,
     required String imageUrl,
+    required String userId,
     @TimestampConverter() required Timestamp createdAt,
     @TimestampConverter() required Timestamp updatedAt,
   }) = _UserData;

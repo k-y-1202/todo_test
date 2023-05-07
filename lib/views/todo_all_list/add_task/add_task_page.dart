@@ -5,6 +5,7 @@ import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/data_models/todo/todo.dart';
 import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/views/my_page/components/blue_button.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTaskPage extends StatelessWidget {
   const AddTaskPage({super.key});
@@ -44,15 +45,18 @@ class AddTaskPage extends StatelessWidget {
                   if (formKey.currentState!.validate() == false) {
                     return;
                   }
+                  final String uuid = const Uuid().v4();
                   Todo addTodoData = Todo(
                     taskName: taskNameController.text,
                     userId: FirebaseAuth.instance.currentUser!.uid,
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
+                    todoId: uuid,
                   );
                   await FirebaseFirestore.instance
                       .collection('todos')
-                      .add(addTodoData.toJson());
+                      .doc(uuid)
+                      .set(addTodoData.toJson());
                   showToast('タスク追加されました');
                   taskNameController.clear();
                 },

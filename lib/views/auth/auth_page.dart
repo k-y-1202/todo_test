@@ -74,15 +74,17 @@ class AuthPage extends StatelessWidget {
                     if (user != null) {
                       showToast('ユーザー登録しました！');
                       //FireStoreにuserドキュメントを作成
+                      final UserData createUserData = UserData(
+                        userName: '',
+                        imageUrl: '',
+                        userId: user.uid,
+                        createdAt: Timestamp.now(),
+                        updatedAt: Timestamp.now(),
+                      );
                       FirebaseFirestore.instance
                           .collection('users')
                           .doc(user.uid)
-                          .set({
-                        'userName': '',
-                        'imageUrl': '',
-                        'createdAt': Timestamp.now(),
-                        'updatedAt': Timestamp.now(),
-                      });
+                          .set(createUserData.toJson());
                     } else {
                       showCloseOnlyDialog(
                           context, '予期せぬエラーがでました、再度やりなおしてください。', '会員登録失敗');
