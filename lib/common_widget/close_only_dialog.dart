@@ -21,6 +21,7 @@ class CloseOnlyDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      // TODO:タイトルを変える必要あり
       title: const Text("会員登録失敗"),
       content: Text(text),
       actions: [

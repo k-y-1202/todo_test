@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_test/common_widget/close_only_dialog.dart';
@@ -69,7 +70,18 @@ class AuthPage extends StatelessWidget {
                                 password: passController.text))
                         .user;
                     if (user != null) {
+                      print(user.uid);
                       print("ユーザ登録しました");
+                      //FireStoreにuserドキュメントを作成
+                      FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.uid)
+                          .set({
+                        'userName': '',
+                        'imageUrl': '',
+                        'createdAt': DateTime.now(),
+                        'updatedAt': DateTime.now(),
+                      });
                       showCloseOnlyDialog(context, 'ユーザ登録しました');
                     } else {
                       showCloseOnlyDialog(

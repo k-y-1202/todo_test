@@ -13,7 +13,8 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? myUserEmail = FirebaseAuth.instance.currentUser!.email;
-
+    String? myUserId = FirebaseAuth.instance.currentUser!.uid;
+    print(myUserId);
     return Scaffold(
       appBar: AppBar(
         title: const Text('マイページ'),
@@ -34,7 +35,7 @@ class MyPage extends StatelessWidget {
           child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('users')
-                  .doc('80Tori0iCYjjQd9ecQ0H')
+                  .doc(myUserId)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,14 +71,25 @@ class MyPage extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    ClipOval(
-                      child: Image.network(
-                        userData.imageUrl,
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.cover,
+                    if (userData.imageUrl != '')
+                      ClipOval(
+                        child: Image.network(
+                          userData.imageUrl,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    else
+                      //imageUrlが空文字だったら
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/default_user_icon.png',
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
                     MarginSizedBox.mediumHeightMargin,
                     Text(
                       userData.userName,
