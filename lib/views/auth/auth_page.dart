@@ -5,6 +5,7 @@ import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/main.dart';
 
 import 'package:todo_test/views/auth/components/auth_text_form_field.dart';
+import 'package:todo_test/views/auth/password_reminder_page.dart';
 import 'package:todo_test/views/bottom_navigation/bottom_navigation_page.dart';
 
 class AuthPage extends StatelessWidget {
@@ -34,12 +35,23 @@ class AuthPage extends StatelessWidget {
                 label: 'パスワード',
               ),
               MarginSizedBox.smallHeightMargin,
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
-                child: Text(
-                  'パスワードを忘れた方はこちら >',
-                  style: TextStyle(color: Colors.blue),
-                  textAlign: TextAlign.end,
+                child: InkWell(
+                  onTap: () {
+                    // （1） 指定した画面に遷移する
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(context, MaterialPageRoute(
+                        // （2） 実際に表示するページ(ウィジェット)を指定する
+                        builder: (context) {
+                      return const PassWordReminderPage();
+                    }));
+                  },
+                  child: const Text(
+                    'パスワードを忘れた方はこちら >',
+                    style: TextStyle(color: Colors.blue),
+                    textAlign: TextAlign.end,
+                  ),
                 ),
               ),
               MarginSizedBox.bigHeightMargin,
@@ -103,13 +115,6 @@ class AuthPage extends StatelessWidget {
                     if (user != null) {
                       print('ログイン成功');
                       // BottomNavigationPage(),
-                      // （1） 指定した画面に遷移する
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(context, MaterialPageRoute(
-                          // （2） 実際に表示するページ(ウィジェット)を指定する
-                          builder: (context) {
-                        return const BottomNavigationPage();
-                      }));
                     } else {
                       // ignore: use_build_context_synchronously
                       showCloseOnlyDialog(
