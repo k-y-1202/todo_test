@@ -8,6 +8,8 @@ class UserData with _$UserData {
   factory UserData({
     required String userName,
     required String imageUrl,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _UserData;
 
   factory UserData.fromJson(Map<String, dynamic> json) =>

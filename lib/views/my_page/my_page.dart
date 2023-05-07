@@ -1,15 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_test/common_widget/close_only_dialog.dart';
+import 'package:todo_test/common_widget/confirm_dialog.dart';
 import 'package:todo_test/common_widget/custom_font_size.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/data_models/user_data/userdata.dart';
+import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/views/my_page/components/blue_button.dart';
+import 'package:todo_test/views/my_page/edit_email/edit_email_page.dart';
 import 'package:todo_test/views/my_page/edit_profile/edit_profile_page.dart';
 
-class MyPage extends StatelessWidget {
+class MyPage extends StatefulWidget {
   const MyPage({super.key});
 
+  @override
+  State<MyPage> createState() => _MyPageState();
+}
+
+class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     String? myUserEmail = FirebaseAuth.instance.currentUser!.email;
@@ -103,15 +112,38 @@ class MyPage extends StatelessWidget {
                     MarginSizedBox.bigHeightMargin,
                     BlueButton(
                       buttonText: 'メールアドレス変更',
-                      onBlueButtonPressed: () {
+                      onBlueButtonPressed: () async {
                         print('メールアドレス変更');
+                        await Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const EditEmailPage();
+                        }));
+
+                        //画面がpopしてmy_pageに返ってきたときに再度処理が走る
+                        setState(() {});
                       },
                     ),
                     MarginSizedBox.smallHeightMargin,
                     BlueButton(
                       buttonText: 'パスワード変更',
-                      onBlueButtonPressed: () {
+                      onBlueButtonPressed: () async {
                         print('パスワード変更');
+                        showConfirmDialog(
+                          context: context,
+                          onPressed: () async {
+                            try {
+                              await FirebaseAuth.instance
+                                  .sendPasswordResetEmail(email: myUserEmail!);
+                              showToast("パスワードリセット用のメールを送信しました");
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            } catch (e) {
+                              showCloseOnlyDialog(
+                                  context, e.toString(), 'メール送信失敗');
+                            }
+                          },
+                          text: 'パスワード再設定メールを送信しますか？',
+                        );
                       },
                     ),
                     MarginSizedBox.smallHeightMargin,
