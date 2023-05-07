@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_test/common_widget/custom_font_size.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
+import 'package:todo_test/data_models/user_data/userdata.dart';
 import 'package:todo_test/views/my_page/components/blue_button.dart';
 
 class MyPage extends StatelessWidget {
@@ -39,9 +40,14 @@ class MyPage extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox.shrink();
                 }
+                if (snapshot.hasData == false) {
+                  return const SizedBox.shrink();
+                }
                 final DocumentSnapshot<Map<String, dynamic>>? documentSnapshot =
                     snapshot.data;
-                final Map<String, dynamic>? userData = documentSnapshot!.data();
+                final Map<String, dynamic> userDataMap =
+                    documentSnapshot!.data()!;
+                final UserData userData = UserData.fromJson(userDataMap);
 
                 ///List=[]
                 ///Map={}
@@ -66,7 +72,7 @@ class MyPage extends StatelessWidget {
                   children: [
                     ClipOval(
                       child: Image.network(
-                        'https://thumb.photo-ac.com/f1/f15da6cb7984cd43a6b9c3060b64675a_t.jpeg',
+                        userData.imageUrl,
                         width: 200,
                         height: 200,
                         fit: BoxFit.cover,
@@ -74,7 +80,7 @@ class MyPage extends StatelessWidget {
                     ),
                     MarginSizedBox.mediumHeightMargin,
                     Text(
-                      userData!['userName'],
+                      userData.userName,
                       style: CustomFontSize.mediumFontSize,
                     ),
                     MarginSizedBox.smallHeightMargin,
