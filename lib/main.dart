@@ -31,10 +31,11 @@ class MyApp extends StatelessWidget {
             // スプラッシュ画面などに書き換えても良い
             return const SizedBox();
           }
-          if (snapshot.hasData) {
+          if (snapshot.hasData == true) {
             // User が null でなない、つまりサインイン済みのホーム画面へ
             return const BottomNavigationPage();
           }
+
           // User が null である、つまり未サインインのサインイン画面へ
           return const AuthPage();
         },
