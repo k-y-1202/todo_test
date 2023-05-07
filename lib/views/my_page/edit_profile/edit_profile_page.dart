@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
+import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/views/my_page/components/blue_button.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -52,13 +53,7 @@ class EditProfilePage extends StatelessWidget {
                       'userName': userNameController.text,
                     },
                   );
-                  Fluttertoast.showToast(
-                      msg: "変更成功しました！",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  showToast('変更成功しました！');
                 },
               ),
             ],

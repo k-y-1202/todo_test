@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_test/common_widget/close_only_dialog.dart';
 import 'package:todo_test/common_widget/margin_sizedbox.dart';
+import 'package:todo_test/functions/global_functions.dart';
 import 'package:todo_test/main.dart';
 
 import 'package:todo_test/views/auth/components/auth_text_form_field.dart';
@@ -70,8 +71,7 @@ class AuthPage extends StatelessWidget {
                                 password: passController.text))
                         .user;
                     if (user != null) {
-                      print(user.uid);
-                      print("ユーザ登録しました");
+                      showToast('ユーザー登録しました！');
                       //FireStoreにuserドキュメントを作成
                       FirebaseFirestore.instance
                           .collection('users')
@@ -82,28 +82,30 @@ class AuthPage extends StatelessWidget {
                         'createdAt': DateTime.now(),
                         'updatedAt': DateTime.now(),
                       });
-                      showCloseOnlyDialog(context, 'ユーザ登録しました');
                     } else {
                       showCloseOnlyDialog(
-                          context, '予期せぬエラーがでました、再度やりなおしてください。');
+                          context, '予期せぬエラーがでました、再度やりなおしてください。', '会員登録失敗');
                     }
                   } on FirebaseAuthException catch (error) {
                     print(error.code);
                     if (error.code == 'invalid-email') {
                       print('メールアドレスの形式ではありません');
-                      showCloseOnlyDialog(context, 'メールアドレスの形式ではありません');
+                      showCloseOnlyDialog(
+                          context, 'メールアドレスの形式ではありません', '会員登録失敗');
                     }
                     if (error.code == 'email-already-in-use') {
                       print('既に使われているメールアドレスです');
-                      showCloseOnlyDialog(context, '既に使われているメールアドレスです');
+                      showCloseOnlyDialog(
+                          context, '既に使われているメールアドレスです', '会員登録失敗');
                     }
                     if (error.code == 'weak-password') {
                       print('パスワードが弱すぎるぜ');
-                      showCloseOnlyDialog(context, 'パスワードが弱すぎるぜ');
+                      showCloseOnlyDialog(context, 'パスワードが弱すぎるぜ', '会員登録失敗');
                     }
                   } catch (error) {
                     print('予期せぬエラー');
-                    showCloseOnlyDialog(context, '予期せぬエラーが起きたよ。やり直してね');
+                    showCloseOnlyDialog(
+                        context, '予期せぬエラーが起きたよ。やり直してね', '会員登録失敗');
                   }
                 },
                 child: const Text('会員登録'),
@@ -137,16 +139,18 @@ class AuthPage extends StatelessWidget {
                     } else {
                       // ignore: use_build_context_synchronously
                       showCloseOnlyDialog(
-                          context, '予期せぬエラーがでました、再度やりなおしてください。');
+                          context, '予期せぬエラーがでました、再度やりなおしてください。', 'ログイン失敗');
                     }
                   } on FirebaseAuthException catch (error) {
                     if (error.code == 'user-not-found') {
-                      showCloseOnlyDialog(context, 'ユーザーが見つかりません');
+                      showCloseOnlyDialog(context, 'ユーザーが見つかりません', 'ログイン失敗');
                     } else if (error.code == 'invalid-email') {
-                      showCloseOnlyDialog(context, 'メールアドレスの形式ではありません');
+                      showCloseOnlyDialog(
+                          context, 'メールアドレスの形式ではありません', 'ログイン失敗');
                     }
                   } catch (error) {
-                    showCloseOnlyDialog(context, '予期せぬエラーがきたよ。$error');
+                    showCloseOnlyDialog(
+                        context, '予期せぬエラーがきたよ。$error', 'ログイン失敗');
                   }
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
