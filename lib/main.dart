@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_test/firebase_options.dart';
 import 'package:todo_test/views/auth/auth_page.dart';
+import 'package:todo_test/views/bottom_navigation/bottom_navigation_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const AuthPage(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // スプラッシュ画面などに書き換えても良い
+            return const SizedBox();
+          }
+          if (snapshot.hasData) {
+            // User が null でなない、つまりサインイン済みのホーム画面へ
+            return const BottomNavigationPage();
+          }
+          // User が null である、つまり未サインインのサインイン画面へ
+          return const AuthPage();
+        },
+      ),
     );
   }
 }

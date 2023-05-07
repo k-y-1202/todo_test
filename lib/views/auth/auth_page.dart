@@ -5,6 +5,7 @@ import 'package:todo_test/common_widget/margin_sizedbox.dart';
 import 'package:todo_test/main.dart';
 
 import 'package:todo_test/views/auth/components/auth_text_form_field.dart';
+import 'package:todo_test/views/bottom_navigation/bottom_navigation_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -57,6 +58,7 @@ class AuthPage extends StatelessWidget {
                         .user;
                     if (user != null) {
                       print("ユーザ登録しました");
+                      showCloseOnlyDialog(context, 'ユーザ登録しました');
                     } else {
                       showCloseOnlyDialog(
                           context, '予期せぬエラーがでました、再度やりなおしてください。');
@@ -100,7 +102,16 @@ class AuthPage extends StatelessWidget {
                         .user;
                     if (user != null) {
                       print('ログイン成功');
+                      // BottomNavigationPage(),
+                      // （1） 指定した画面に遷移する
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(context, MaterialPageRoute(
+                          // （2） 実際に表示するページ(ウィジェット)を指定する
+                          builder: (context) {
+                        return const BottomNavigationPage();
+                      }));
                     } else {
+                      // ignore: use_build_context_synchronously
                       showCloseOnlyDialog(
                           context, '予期せぬエラーがでました、再度やりなおしてください。');
                     }
